@@ -8,10 +8,10 @@ pipeline {
 
   environment {
     DOCKER_REGISTRY   = "docker.io"
-    DOCKER_IMAGE_NAME = "your-dockerhub-username/spring-boot-app"
-    GIT_REPO_NAME     = "your-repo-name"
-    GIT_USER_NAME     = "your-github-username"
-    GIT_USER_EMAIL    = "your-email@example.com"
+    DOCKER_IMAGE_NAME = "nev007/spring-boot-app"
+    GIT_REPO_NAME     = "java-cicd-pipeline"
+    GIT_USER_NAME     = "Nev-007"
+    GIT_USER_EMAIL    = "nevulinux07@gmail.com"
   }
 
   stages {
@@ -30,7 +30,7 @@ pipeline {
 
     stage('Static Code Analysis') {
       environment {
-        SONAR_URL = "http://your-sonarqube-host:9000"
+        SONAR_URL = "http://localhost:9000"
       }
       steps {
         withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
