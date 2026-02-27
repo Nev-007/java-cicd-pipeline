@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: spring-boot-app
-        image: nev007/spring-boot-app:v1
+        image: nev007/spring-boot-app:replaceImageTag
         ports:
         - containerPort: 8080
         resources:
