@@ -2,19 +2,38 @@ pipeline {
   agent {
     docker {
       image 'maven:3.8.6-openjdk-11'
-      args '--user root -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker'
+      args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
     }
   }
 
   environment {
     DOCKER_REGISTRY   = "docker.io"
     DOCKER_IMAGE_NAME = "nev007/spring-boot-app"
-    GIT_REPO_NAME     = "java-cicd-pipeline"
-    GIT_USER_NAME     = "Nev-007"
-    GIT_USER_EMAIL    = "nevulinux07@gmail.com"
+    GIT_REPO_NAME     = "your-repo-name"
+    GIT_USER_NAME     = "your-github-username"
+    GIT_USER_EMAIL    = "your-email@example.com"
   }
 
   stages {
+
+    stage('Install Docker CLI') {
+      steps {
+        sh '''
+          apt-get update -qq
+          apt-get install -y -qq ca-certificates curl gnupg
+          install -m 0755 -d /etc/apt/keyrings
+          curl -fsSL https://download.docker.com/linux/debian/gpg \
+            | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+          chmod a+r /etc/apt/keyrings/docker.gpg
+          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] \
+            https://download.docker.com/linux/debian bookworm stable" \
+            > /etc/apt/sources.list.d/docker.list
+          apt-get update -qq
+          apt-get install -y -qq docker-ce-cli
+          docker --version
+        '''
+      }
+    }
 
     stage('Checkout') {
       steps {
